@@ -17,3 +17,19 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import
 build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Olega/Desktop/Job-Music Ready Tasks/Task1/WORK-EXCEL-import/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Olega/Desktop/Job-Music Ready Tasks/Task1/WORK-EXCEL-import/Views/Works/UploadFromExcel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV29ya3NcVXBsb2FkRnJvbUV4Y2VsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Olega/Desktop/Job-Music Ready Tasks/Task1/WORK-EXCEL-import/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Olega/Desktop/Job-Music Ready Tasks/Task1/WORK-EXCEL-import/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

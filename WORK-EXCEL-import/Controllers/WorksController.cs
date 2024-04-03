@@ -1,12 +1,43 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServiceContracts;
 
 namespace WORK_EXCEL_import.Controllers
 {
-    [Route("[controller]")]
     public class WorksController : Controller
     {
-        public IActionResult Index()
+        private readonly IWorkService _workService;
+        public WorksController(IWorkService workService)
         {
+            _workService = workService;
+        }
+
+        [Route("[action]")]
+        [Route("/")]
+        public IActionResult UploadFromExcel()
+        {
+            return View();
+        }
+
+        [Route("[action]")]
+        [Route("/")]
+        [HttpPost]
+        public async Task<IActionResult> UploadFromExcel(IFormFile excelFile)
+        {
+            if (excelFile == null || excelFile.Length == 0)
+            {
+                ViewBag.ErrorMessage = "Please select an xlsx file";
+                return View();
+            }
+
+            if (!Path.GetExtension(excelFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                ViewBag.ErrorMessage = "Unsupported file. 'xlsx' file is expected";
+                return View();
+            }
+
+            int dataCountInserted = await _workService.UploadWorkDataFromExcelFile(excelFile);
+
+            ViewBag.Message = $"{dataCountInserted} Uploaded";
             return View();
         }
     }

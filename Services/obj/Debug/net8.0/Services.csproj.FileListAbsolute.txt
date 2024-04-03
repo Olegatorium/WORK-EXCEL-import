@@ -13,3 +13,5 @@ C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\Services\obj\Debug\net8.0\Ser
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\Services\obj\Debug\net8.0\refint\Services.dll
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\Services\obj\Debug\net8.0\Services.pdb
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\Services\obj\Debug\net8.0\ref\Services.dll
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\Services\bin\Debug\net8.0\Entities.dll
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\Services\bin\Debug\net8.0\Entities.pdb

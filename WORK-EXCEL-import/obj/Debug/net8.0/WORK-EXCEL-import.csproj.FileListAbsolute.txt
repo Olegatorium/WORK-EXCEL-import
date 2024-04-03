@@ -139,3 +139,6 @@ C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import\bin\Debug\n
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import\bin\Debug\net8.0\Services.pdb
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import\obj\Debug\net8.0\WORK-EXCEL-import.csproj.AssemblyReference.cache
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import\obj\Debug\net8.0\WORK-EXC.DCE68684.Up2Date
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import\bin\Debug\net8.0\WORK-EXCEL-import.staticwebassets.runtime.json
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import\obj\Debug\net8.0\WORK-EXCEL-import.RazorAssemblyInfo.cache
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\WORK-EXCEL-import\obj\Debug\net8.0\WORK-EXCEL-import.RazorAssemblyInfo.cs

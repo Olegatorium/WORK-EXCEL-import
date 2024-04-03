@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "G42p1nyaxQ0SDlhMD0fOl9nk65i0HZ56/zoSMuKPGjE=",
+  "Hash": "lRit3urUMUCWfE+iZRna9oYdtba5lS3pb8rIiwFQpqg=",
   "Source": "WORK-EXCEL-import",
   "BasePath": "_content/WORK-EXCEL-import",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "WORK-EXCEL-import\\wwwroot",
+      "Source": "WORK-EXCEL-import",
+      "ContentRoot": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\wwwroot\\",
+      "BasePath": "_content/WORK-EXCEL-import",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\wwwroot\\StyleSheet.css",
+      "SourceId": "WORK-EXCEL-import",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\wwwroot\\",
+      "BasePath": "_content/WORK-EXCEL-import",
+      "RelativePath": "StyleSheet.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\StyleSheet.css"
+    }
+  ]
 }

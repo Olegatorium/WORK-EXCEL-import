@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\wwwroot\\StyleSheet.css",
+      "PackagePath": "staticwebassets\\StyleSheet.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.WORK-EXCEL-import.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.WORK-EXCEL-import.props",
+      "PackagePath": "build\\WORK-EXCEL-import.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.WORK-EXCEL-import.props",
+      "PackagePath": "buildMultiTargeting\\WORK-EXCEL-import.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.WORK-EXCEL-import.props",
+      "PackagePath": "buildTransitive\\WORK-EXCEL-import.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -992,6 +992,7 @@
       "Services/1.0.0": {
         "dependencies": {
           "EPPlus": "6.0.6",
+          "Entities": "1.0.0",
           "ServiceContracts": "1.0.0"
         },
         "runtime": {
