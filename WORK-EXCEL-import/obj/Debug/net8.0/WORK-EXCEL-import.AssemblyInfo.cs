@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WORK-EXCEL-import")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+509ebe560852686a53d5bb9b868cf18df48fa7c2")]
 [assembly: System.Reflection.AssemblyProductAttribute("WORK-EXCEL-import")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WORK-EXCEL-import")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

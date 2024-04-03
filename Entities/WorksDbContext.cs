@@ -20,6 +20,7 @@ namespace Entities
             modelBuilder.Entity<Work>().HasData(
                 new Work 
                 {
+                   ID = 1,
                    SenderWorkCode = "4683465",
                    RecordCode = 'U',
                    Title = "TEST",

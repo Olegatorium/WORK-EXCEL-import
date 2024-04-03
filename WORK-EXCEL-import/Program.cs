@@ -1,3 +1,5 @@
+using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using Services;
 
@@ -6,6 +8,11 @@ builder.Services.AddControllersWithViews();
 
 // add services into IoC container
 builder.Services.AddScoped<IWorkService, WorkService>();
+
+builder.Services.AddDbContext<WorksDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 var app = builder.Build();
 
