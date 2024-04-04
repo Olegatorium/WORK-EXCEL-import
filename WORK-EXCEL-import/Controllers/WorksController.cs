@@ -37,8 +37,11 @@ namespace WORK_EXCEL_import.Controllers
 
             int dataCountInserted = await _workService.UploadWorkDataFromExcelFile(excelFile);
 
+            List<string> errors = _workService.GetErrors();
+
             ViewBag.Message = $"{dataCountInserted} Uploaded";
-            return View();
+
+            return View(errors);
         }
     }
 }
