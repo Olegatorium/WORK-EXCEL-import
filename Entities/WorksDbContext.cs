@@ -31,7 +31,8 @@ namespace Entities
                    InWorkMR = 30,
                    Controlled = 'Y',
                    ISWC = "T9330044821",
-                   AgreementNumber = "3573330000005"
+                   AgreementNumber = "3573330000005",
+                   Language = "EN"
                 }
                   );   
         }

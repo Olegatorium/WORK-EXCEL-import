@@ -37,5 +37,8 @@ namespace Entities
 
         [MaxLength(100)]
         public string? AgreementNumber { get; set;}
+
+        [MaxLength(100)]
+        public string? Language { get; set; }
     }
 }
