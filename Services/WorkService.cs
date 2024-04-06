@@ -48,6 +48,11 @@ namespace Services
                     if (work != null && areСonditionsMet)
                     {
                         _db.Add(work);
+
+
+                        // Condition 2
+                        _db.Works.OrderBy(x => x.SenderWorkCode);
+
                         await _db.SaveChangesAsync();
                         dataInserted++;
                     }
@@ -81,7 +86,7 @@ namespace Services
                 }
                 else if (head == "Role" && !string.IsNullOrWhiteSpace(cellValue))
                 {
-                    work.Role = cellValue[0];
+                    work.Role = cellValue.Trim();
                 }
                 else if (head == "Shareholder")
                 {
@@ -146,9 +151,80 @@ namespace Services
                 work.Title = "AKA TITLE";
             }
 
+            // Check whether there are duplicates in the database, Condition 2.1
+
+            if (IsDuplicate(work))
+            {
+                conditionsMet = false;
+                _errorsList.Add($"WORK already in database, it can`t be duplicated. Sender Work Code = {work.SenderWorkCode}");
+            }
+
             return conditionsMet;
         }
 
+        //Condition 5
+        public bool IsRecordCodeEqualUAndIpiSame(Work work)
+        {
+            if (work.RecordCode != 'U')
+                return false;
+
+            Work? foundWork = _db.Works.Where(x => x.IPI == work.IPI && x.RecordCode == 'U').FirstOrDefault();
+
+            if (foundWork == null)
+                return false;
+
+            //Condition 5a
+            if (foundWork.Role == "C" && work.Role == "A" || foundWork.Role == "A" && work.Role == "C")
+            {
+                foundWork.Role = "CA";
+            }
+            else if (foundWork.Role == "C" && work.Role == "AD" || foundWork.Role == "AD" && work.Role == "C")
+            {
+                foundWork.Role = "CA";
+            }
+            else if (foundWork.Role == "A" && work.Role == "AR" || foundWork.Role == "AR" && work.Role == "A")
+            {
+                foundWork.Role = "CA";
+            }
+            else if (foundWork.Role == "A" && work.Role == "AD" || foundWork.Role == "AD" && work.Role == "A")
+            {
+                foundWork.Role = "A";
+            }
+            else if (foundWork.Role == "C" && work.Role == "AR" || foundWork.Role == "AR" && work.Role == "C")
+            {
+                foundWork.Role = "C";
+            }
+
+            //Condition 5b
+            foundWork.InWorkPR += work.InWorkPR;
+
+            //Condition 5c
+            if (foundWork.Controlled != null || work.Controlled != null) 
+            {
+                _errorsList.Add($"No uncontrolled for all lines with the same IPI Name Number. Sender Work Code = {work.SenderWorkCode}");
+                return false;
+            }
+
+            //Condition 5e
+            if (foundWork.AgreementNumber != work.AgreementNumber)
+            {
+                _errorsList.Add($"No Agreement for all lines with the same IPI Name Number. Sender Work Code = {work.SenderWorkCode}");
+                return false;
+            }
+
+
+
+
+
+
+
+
+
+            return true;
+        }
+
+
+        //Condition 4
         public bool IsRecordCodeEqualD(Work work) 
         {
             if (work.RecordCode == 'D')
@@ -187,6 +263,8 @@ namespace Services
             return _db.Works.Where(x => x.ISWC == work.ISWC).Count() > 0;
         }
 
+
+        // Condition 2.1
         public bool IsDuplicate(Work work)
         {
             return _db.Works.Where(x => x.SenderWorkCode == work.SenderWorkCode && x.RecordCode == work.RecordCode

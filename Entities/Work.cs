@@ -18,7 +18,8 @@ namespace Entities
         [MaxLength(100)]
         public string? Title { get; set; }
 
-        public char? Role { get; set; }
+        [MaxLength(10)]
+        public string? Role { get; set; }
 
         [MaxLength(100)]
         public string? ShareHolder { get; set; }
