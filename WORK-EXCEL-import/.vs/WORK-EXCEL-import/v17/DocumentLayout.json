@@ -6,17 +6,20 @@
       "AbsoluteMoniker": "D:0:0:{FE09BFB5-C7D0-4514-A820-13159C2C05BE}|..\\Services\\Services.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\services\\workservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Entities\\Migrations\\20240407234736_ChangeDataTypeForField_Role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3C051DD7-C438-4CE0-880F-ED84BE91C993}|..\\Entities\\Entities.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\entities\\work.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3C051DD7-C438-4CE0-880F-ED84BE91C993}|..\\Entities\\Entities.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\entities\\worksdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9DF7B7E7-B425-4714-9915-EED5F530F8FC}|..\\ServiceContracts\\ServiceContracts.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\servicecontracts\\iworkservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3F86A0C3-9AB3-43B1-8D81-E9B5FA071BE1}|WORK-EXCEL-import.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\work-excel-import\\controllers\\workscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3F86A0C3-9AB3-43B1-8D81-E9B5FA071BE1}|WORK-EXCEL-import.csproj|solutionrelative:controllers\\workscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9DF7B7E7-B425-4714-9915-EED5F530F8FC}|..\\ServiceContracts\\ServiceContracts.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\servicecontracts\\iworkservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3F86A0C3-9AB3-43B1-8D81-E9B5FA071BE1}|WORK-EXCEL-import.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\work-excel-import\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -46,7 +49,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,45 +73,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "20240407234736_ChangeDataTypeForField_Role.cs",
+              "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Entities\\Migrations\\20240407234736_ChangeDataTypeForField_Role.cs",
+              "RelativeDocumentMoniker": "..\\Entities\\Migrations\\20240407234736_ChangeDataTypeForField_Role.cs",
+              "ToolTip": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Entities\\Migrations\\20240407234736_ChangeDataTypeForField_Role.cs",
+              "RelativeToolTip": "..\\Entities\\Migrations\\20240407234736_ChangeDataTypeForField_Role.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-07T23:47:37.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "WorkService.cs",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Services\\WorkService.cs",
               "RelativeDocumentMoniker": "..\\Services\\WorkService.cs",
               "ToolTip": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Services\\WorkService.cs",
               "RelativeToolTip": "..\\Services\\WorkService.cs",
-              "ViewState": "AQIAANUAAAAAAAAAAAAAAM0AAAANAAAA",
+              "ViewState": "AQIAABEBAAAAAAAAAAAAACQBAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-04T21:53:53.121Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Work.cs",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Entities\\Work.cs",
               "RelativeDocumentMoniker": "..\\Entities\\Work.cs",
               "ToolTip": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Entities\\Work.cs",
               "RelativeToolTip": "..\\Entities\\Work.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAA1wBMAAAAAAAAA",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAgwBMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-04T21:53:41.041Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "WorksDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Entities\\WorksDbContext.cs",
               "RelativeDocumentMoniker": "..\\Entities\\WorksDbContext.cs",
               "ToolTip": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\Entities\\WorksDbContext.cs",
               "RelativeToolTip": "..\\Entities\\WorksDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAWwBoAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-04T21:53:34.979Z"
+              "WhenOpened": "2024-04-04T21:53:34.979Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "IWorkService.cs",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\ServiceContracts\\IWorkService.cs",
               "RelativeDocumentMoniker": "..\\ServiceContracts\\IWorkService.cs",
@@ -126,13 +143,14 @@
               "RelativeDocumentMoniker": "Controllers\\WorksController.cs",
               "ToolTip": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Controllers\\WorksController.cs",
               "RelativeToolTip": "Controllers\\WorksController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAgwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-04T21:53:19.414Z"
+              "WhenOpened": "2024-04-04T21:53:19.414Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -144,7 +162,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "UploadFromExcel.cshtml",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Views\\Works\\UploadFromExcel.cshtml",
               "RelativeDocumentMoniker": "Views\\Works\\UploadFromExcel.cshtml",
@@ -156,7 +174,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
@@ -168,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -180,7 +198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",

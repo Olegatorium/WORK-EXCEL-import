@@ -24,7 +24,7 @@ namespace Entities
                    SenderWorkCode = "4683465",
                    RecordCode = 'U',
                    Title = "TEST",
-                   Role = 'K',
+                   Role = "K",
                    ShareHolder = "P",
                    IPI = "783755784",
                    InWorkPR = 30,

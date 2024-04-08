@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OfficeOpenXml;
 using ServiceContracts;
@@ -22,44 +23,6 @@ namespace Services
         public List<string> GetErrors()
         {
             return _errorsList;
-        }
-
-        public async Task<int> UploadWorkDataFromExcelFile(IFormFile formFile)
-        {
-            MemoryStream memoryStream = new MemoryStream();
-            await formFile.CopyToAsync(memoryStream);
-            int dataInserted = 0;
-
-            using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
-            {
-                ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets["Works"];
-
-                if (workSheet == null)
-                    return 0;
-
-                int rowCount = workSheet.Dimension.Rows;
-
-                for (int row = 2; row <= rowCount; row++)
-                {
-                    Work work = CreateWorkFromExcelRow(workSheet, row);
-
-                    bool areСonditionsMet = AreСonditionsMet(work);
-
-                    if (work != null && areСonditionsMet)
-                    {
-                        _db.Add(work);
-
-
-                        // Condition 2
-                        _db.Works.OrderBy(x => x.SenderWorkCode);
-
-                        await _db.SaveChangesAsync();
-                        dataInserted++;
-                    }
-                }
-            }
-
-            return dataInserted;
         }
 
         public Work CreateWorkFromExcelRow(ExcelWorksheet workSheet, int row)
@@ -121,17 +84,131 @@ namespace Services
             return work;
         }
 
-        public bool AreСonditionsMet(Work work)
+        public async Task<int> UploadWorkDataFromExcelFile(IFormFile formFile)
         {
-            bool conditionsMet = true;
+            MemoryStream memoryStream = new MemoryStream();
+            await formFile.CopyToAsync(memoryStream);
+            int dataInserted = 0;
 
-            // Condition 2.2
-            if (IsDuplicatedISWC(work))
+            using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
             {
-                conditionsMet = false;
-                _errorsList.Add($"WORK already in database, omitted. ISWC = {work.ISWC}, Sender Work Code = {work.SenderWorkCode}");
+                ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets["Works"];
+
+                if (workSheet == null)
+                    return 0;
+
+                int rowCount = workSheet.Dimension.Rows;
+
+                for (int row = 2; row <= rowCount; row++)
+                {
+                    Work work = CreateWorkFromExcelRow(workSheet, row);
+
+                    // Check whether all conditions met
+                    bool areСonditionsMet = await AreСonditionsMet(work);
+
+                    if (work != null && areСonditionsMet)
+                    {
+                        _db.Add(work);
+
+                        // Condition 2
+                        _db.Works.OrderBy(x => x.SenderWorkCode);
+
+                        await _db.SaveChangesAsync();
+                        dataInserted++;
+                    }
+                }
             }
 
+            return dataInserted;
+        }
+
+        //Condition 5
+        public async Task<Work> IsRecordCodeEqualUAndIpiSame(Work work)
+        {
+            if (work.RecordCode != 'U')
+                return null;
+
+            Work? foundWork = await _db.Works.Where(x => x.IPI == work.IPI &&
+            x.SenderWorkCode == work.SenderWorkCode &&
+            x.RecordCode == 'U').FirstOrDefaultAsync();
+
+            if (foundWork == null)
+                return null;
+
+            return foundWork;
+        }
+
+        //Condition 5
+        public void CheckIsFieldsCorrectOfFoundWork(Work workToAdd, Work foundWork) 
+        {
+            //Condition 5a
+            if (foundWork.Role == "C" && workToAdd.Role == "A" || foundWork.Role == "A" && workToAdd.Role == "C")
+            {
+                foundWork.Role = "CA";
+                workToAdd.Role = "CA";
+            }
+            else if (foundWork.Role == "C" && workToAdd.Role == "AD" || foundWork.Role == "AD" && workToAdd.Role == "C")
+            {
+                foundWork.Role = "CA";
+                workToAdd.Role = "CA";
+            }
+            else if (foundWork.Role == "A" && workToAdd.Role == "AR" || foundWork.Role == "AR" && workToAdd.Role == "A")
+            {
+                foundWork.Role = "CA";
+                workToAdd.Role = "CA";
+            }
+            else if (foundWork.Role == "A" && workToAdd.Role == "AD" || foundWork.Role == "AD" && workToAdd.Role == "A")
+            {
+                foundWork.Role = "A";
+                workToAdd.Role = "A";
+            }
+            else if (foundWork.Role == "C" && workToAdd.Role == "AR" || foundWork.Role == "AR" && workToAdd.Role == "C")
+            {
+                foundWork.Role = "C";
+                workToAdd.Role = "C";
+            }
+
+            //Condition 5b
+            foundWork.InWorkPR += workToAdd.InWorkPR;
+            workToAdd.InWorkPR = foundWork.InWorkPR;
+        }
+
+        //Condition 5
+        public void SearchErrorsFoundWork(Work workToAdd, Work foundWork) 
+        {
+            //Condition 5e
+            if (foundWork.AgreementNumber != workToAdd.AgreementNumber)
+            {
+                _errorsList.Add($"No Agreement for all lines with the same IPI Name Number. Sender Work Code = {workToAdd.SenderWorkCode}");
+                return;
+            }
+
+            //Condition 5c
+            if (foundWork.Controlled != null || workToAdd.Controlled != null)
+            {
+                _errorsList.Add($"No uncontrolled for all lines with the same IPI Name Number. Sender Work Code = {workToAdd.SenderWorkCode}");
+                return;
+            }
+            //Condition 5d
+            else if (foundWork.Controlled != 'Y' || workToAdd.Controlled != 'Y')
+            {
+                _errorsList.Add($"No controlled for all lines with the same IPI Name Number. Sender Work Code = {workToAdd.SenderWorkCode}");
+                return;
+            }
+        }
+
+        //Condition 5
+        public async Task CompareWorksWithRecordCodeEqualUAndIpiSame(Work workToAdd, Work foundWork)
+        {
+            CheckIsFieldsCorrectOfFoundWork(workToAdd, foundWork);
+
+            await _db.SaveChangesAsync();
+
+            SearchErrorsFoundWork(workToAdd, foundWork);
+        }
+
+        public async Task<bool> AreСonditionsMet(Work work)
+        {
             // Condition 3a and 3c
             if (!IsTitleAndISWCNeeded(work)) 
             {
@@ -151,78 +228,30 @@ namespace Services
                 work.Title = "AKA TITLE";
             }
 
-            // Check whether there are duplicates in the database, Condition 2.1
+            //Condition 5
 
+            Work foundWork = await IsRecordCodeEqualUAndIpiSame(work);
+
+            if (foundWork != null)
+            {
+                await CompareWorksWithRecordCodeEqualUAndIpiSame(work, foundWork);
+            }
+
+            // Check whether there are duplicates in the database, Condition 2.1
             if (IsDuplicate(work))
             {
-                conditionsMet = false;
                 _errorsList.Add($"WORK already in database, it can`t be duplicated. Sender Work Code = {work.SenderWorkCode}");
-            }
-
-            return conditionsMet;
-        }
-
-        //Condition 5
-        public bool IsRecordCodeEqualUAndIpiSame(Work work)
-        {
-            if (work.RecordCode != 'U')
-                return false;
-
-            Work? foundWork = _db.Works.Where(x => x.IPI == work.IPI && x.RecordCode == 'U').FirstOrDefault();
-
-            if (foundWork == null)
-                return false;
-
-            //Condition 5a
-            if (foundWork.Role == "C" && work.Role == "A" || foundWork.Role == "A" && work.Role == "C")
-            {
-                foundWork.Role = "CA";
-            }
-            else if (foundWork.Role == "C" && work.Role == "AD" || foundWork.Role == "AD" && work.Role == "C")
-            {
-                foundWork.Role = "CA";
-            }
-            else if (foundWork.Role == "A" && work.Role == "AR" || foundWork.Role == "AR" && work.Role == "A")
-            {
-                foundWork.Role = "CA";
-            }
-            else if (foundWork.Role == "A" && work.Role == "AD" || foundWork.Role == "AD" && work.Role == "A")
-            {
-                foundWork.Role = "A";
-            }
-            else if (foundWork.Role == "C" && work.Role == "AR" || foundWork.Role == "AR" && work.Role == "C")
-            {
-                foundWork.Role = "C";
-            }
-
-            //Condition 5b
-            foundWork.InWorkPR += work.InWorkPR;
-
-            //Condition 5c
-            if (foundWork.Controlled != null || work.Controlled != null) 
-            {
-                _errorsList.Add($"No uncontrolled for all lines with the same IPI Name Number. Sender Work Code = {work.SenderWorkCode}");
                 return false;
             }
-
-            //Condition 5e
-            if (foundWork.AgreementNumber != work.AgreementNumber)
+            // Condition 2.2
+            else if (IsDuplicatedISWC(work))
             {
-                _errorsList.Add($"No Agreement for all lines with the same IPI Name Number. Sender Work Code = {work.SenderWorkCode}");
+                _errorsList.Add($"WORK already in database, omitted. ISWC = {work.ISWC}, Sender Work Code = {work.SenderWorkCode}");
                 return false;
             }
-
-
-
-
-
-
-
-
 
             return true;
         }
-
 
         //Condition 4
         public bool IsRecordCodeEqualD(Work work) 
