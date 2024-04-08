@@ -32,7 +32,8 @@ namespace Entities
                    Controlled = 'Y',
                    ISWC = "T9330044821",
                    AgreementNumber = "3573330000005",
-                   Language = "EN"
+                   Language = "EN",
+                   Rightsholder = "Mykola 3243243"
                 }
                   );   
         }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.FileProviders;
 using OfficeOpenXml;
 using ServiceContracts;
 using System.Diagnostics.Metrics;
@@ -75,7 +76,7 @@ namespace Services
                 {
                     work.ISWC = cellValue;
                 }
-                else if (head == "AGREEMENT NO")
+                else if (head == "AGREEMENT NO" && !string.IsNullOrWhiteSpace(cellValue))
                 {
                     work.AgreementNumber = cellValue;
                 }
@@ -207,6 +208,40 @@ namespace Services
             SearchErrorsFoundWork(workToAdd, foundWork);
         }
 
+        //Condition 6
+        public async Task<bool> RecordCodeEqualU(Work work)
+        {
+            // Condition 6.a
+            Work? foundWork = await _db.Works.Where(x => x.IPI == work.IPI && x.Rightsholder != null).FirstOrDefaultAsync();
+
+            if (foundWork != null)
+                return false;
+
+            work.Rightsholder = $"{work.ShareHolder} {work.IPI}";
+
+            // Skip Condition 6.a.i
+
+            //Condition 6.a.ii.
+
+            if (_db.Works.Where(x=>x.Controlled == 'Y').Count() == 0)
+            {
+                _errorsList.Add($"No SWR in transaction. Sender Work Code = {work.SenderWorkCode}");
+                return false;
+            }
+
+            // Skip Condition 6b
+
+            // Condition 6c
+
+            if (work.Controlled == 'Y' && work.AgreementNumber == null)
+            {
+                _errorsList.Add($"No agreement with FinalSE. Sender Work Code = {work.SenderWorkCode}");
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task<bool> AreСonditionsMet(Work work)
         {
             // Condition 3a and 3c
@@ -237,6 +272,12 @@ namespace Services
                 await CompareWorksWithRecordCodeEqualUAndIpiSame(work, foundWork);
             }
 
+            //Condition 6
+            if (work.RecordCode == 'U' && !await RecordCodeEqualU(work))
+            {
+                return false;
+            }
+
             // Check whether there are duplicates in the database, Condition 2.1
             if (IsDuplicate(work))
             {
@@ -246,7 +287,7 @@ namespace Services
             // Condition 2.2
             else if (IsDuplicatedISWC(work))
             {
-                _errorsList.Add($"WORK already in database, omitted. ISWC = {work.ISWC}, Sender Work Code = {work.SenderWorkCode}");
+                _errorsList.Add($"WORK already in database, omitted. ISWC = {work.ISWC}. Sender Work Code = {work.SenderWorkCode}");
                 return false;
             }
 
@@ -291,7 +332,6 @@ namespace Services
 
             return _db.Works.Where(x => x.ISWC == work.ISWC).Count() > 0;
         }
-
 
         // Condition 2.1
         public bool IsDuplicate(Work work)

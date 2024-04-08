@@ -41,5 +41,8 @@ namespace Entities
 
         [MaxLength(100)]
         public string? Language { get; set; }
+
+        [MaxLength(100)]
+        public string? Rightsholder { get; set; }
     }
 }
