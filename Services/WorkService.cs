@@ -15,6 +15,8 @@ namespace Services
 
         private List<string> _errorsList;
 
+        private bool _excelFormatCorrect = true;
+
         public WorkService(WorksDbContext db)
         {
             _errorsList = new List<string>();
@@ -24,6 +26,64 @@ namespace Services
         public List<string> GetErrors()
         {
             return _errorsList;
+        }
+
+        public async Task<int> UploadWorkDataFromExcelFile(IFormFile formFile)
+        {
+            MemoryStream memoryStream = await GetMemoryStreamFromFormFile(formFile);
+            int dataInserted = await ProcessExcelFile(memoryStream);
+            return dataInserted;
+        }
+
+        public async Task<MemoryStream> GetMemoryStreamFromFormFile(IFormFile formFile)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            await formFile.CopyToAsync(memoryStream);
+            return memoryStream;
+        }
+
+        public async Task<int> ProcessExcelFile(MemoryStream memoryStream)
+        {
+            int dataInserted = 0;
+            using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
+            {
+                foreach (ExcelWorksheet workSheet in excelPackage.Workbook.Worksheets)
+                {
+                    if (workSheet == null)
+                        continue;
+
+                    int rowCount = workSheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        Work work = CreateWorkFromExcelRow(workSheet, row);
+
+                        if (!_excelFormatCorrect)
+                        {
+                            _excelFormatCorrect = true;
+                            return 0;
+                        }
+
+                        if (work == null)
+                            continue;
+
+                        // Check whether all conditions met
+                        bool areConditionsMet = await AreСonditionsMet(work);
+
+                        if (!areConditionsMet)
+                            continue;
+
+                        _db.Add(work);
+
+                        // Condition 2
+                        _db.Works.OrderBy(x => x.SenderWorkCode);
+
+                        await _db.SaveChangesAsync();
+                        dataInserted++;
+                    }
+                }
+            }
+            return dataInserted;
         }
 
         public Work CreateWorkFromExcelRow(ExcelWorksheet workSheet, int row)
@@ -36,91 +96,194 @@ namespace Services
                 string? head = Convert.ToString(workSheet.Cells[1, column].Value);
                 string? cellValue = Convert.ToString(workSheet.Cells[row, column].Value);
 
-                if (head == "Sender Work Code")
+                if (IsSenderWorkCodeEmpty(head, cellValue))
+                    return null;
+
+                if (!IsExcelFormatCorrect(head, cellValue, column))
                 {
-                    work.SenderWorkCode = cellValue;
+                    _errorsList.Add("Incorrect excel format. Please provide correct excel format.");
+                    _excelFormatCorrect = false;
+                    return null;
                 }
-                else if (head == "Record Code" && !string.IsNullOrWhiteSpace(cellValue))
-                {
-                    work.RecordCode = cellValue[0];
-                }
-                else if (head == "Title")
-                {
-                    work.Title = cellValue;
-                }
-                else if (head == "Role" && !string.IsNullOrWhiteSpace(cellValue))
-                {
-                    work.Role = cellValue.Trim();
-                }
-                else if (head == "Shareholder")
-                {
-                    work.ShareHolder = cellValue.Trim();
-                }
-                else if (head == "IPI")
-                {
-                    work.IPI = cellValue;
-                }
-                else if (head == "InWork PR" && !string.IsNullOrWhiteSpace(cellValue))
-                {
-                    work.InWorkPR = int.Parse(cellValue);
-                }
-                else if (head == "InWork MR" && !string.IsNullOrWhiteSpace(cellValue))
-                {
-                    work.InWorkMR = int.Parse(cellValue);
-                }
-                else if (head == "Controlled" && !string.IsNullOrWhiteSpace(cellValue))
-                {
-                    work.Controlled = cellValue[0];
-                }
-                else if (head == "ISWC" && !string.IsNullOrWhiteSpace(cellValue))
-                {
-                    work.ISWC = cellValue;
-                }
-                else if (head == "AGREEMENT NO" && !string.IsNullOrWhiteSpace(cellValue))
-                {
-                    work.AgreementNumber = cellValue;
-                }
+
+                if (string.IsNullOrWhiteSpace(cellValue))
+                    continue;
+
+                //delete spaces to put date correct
+                cellValue = cellValue.Trim();
+
+                SetWorkProperty(head, cellValue, work);
             }
 
             return work;
         }
 
-        public async Task<int> UploadWorkDataFromExcelFile(IFormFile formFile)
+        public bool IsSenderWorkCodeEmpty(string? head, string? cellValue)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            await formFile.CopyToAsync(memoryStream);
-            int dataInserted = 0;
-
-            using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
+            if (head == "Sender Work Code" && string.IsNullOrWhiteSpace(cellValue))
             {
-                ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets["Works"];
+                _errorsList.Add("Sender Work Code can't be empty");
+                return true;
+            }
+            return false;
+        }
 
-                if (workSheet == null)
-                    return 0;
+        public bool IsExcelFormatCorrect(string? head, string? cellValue, int column)
+        {
+            if (column == 1 && (string.IsNullOrWhiteSpace(head) || string.IsNullOrWhiteSpace(cellValue)))
+                return false;
 
-                int rowCount = workSheet.Dimension.Rows;
+            if (string.IsNullOrWhiteSpace(head))
+                return false;
 
-                for (int row = 2; row <= rowCount; row++)
-                {
-                    Work work = CreateWorkFromExcelRow(workSheet, row);
+            return true;
+        }
 
-                    // Check whether all conditions met
-                    bool areСonditionsMet = await AreСonditionsMet(work);
+        public void SetWorkProperty(string head, string cellValue, Work work)
+        {
+            if (head == "Sender Work Code")
+            {
+                work.SenderWorkCode = cellValue;
+            }
+            else if (head == "Record Code")
+            {
+                work.RecordCode = cellValue[0];
+            }
+            else if (head == "Title")
+            {
+                work.Title = cellValue;
+            }
+            else if (head == "Role")
+            {
+                work.Role = cellValue;
+            }
+            else if (head == "Shareholder")
+            {
+                work.ShareHolder = cellValue;
+            }
+            else if (head == "IPI")
+            {
+                work.IPI = cellValue;
+            }
+            else if (head == "InWork PR" && int.TryParse(cellValue, out int inWorkPr))
+            {
+                work.InWorkPR = inWorkPr;
+            }
+            else if (head == "InWork MR" && int.TryParse(cellValue, out int inWorkMr))
+            {
+                work.InWorkMR = inWorkMr;
+            }
+            else if (head == "Controlled")
+            {
+                work.Controlled = cellValue[0];
+            }
+            else if (head == "ISWC")
+            {
+                work.ISWC = cellValue;
+            }
+            else if (head == "AGREEMENT NO")
+            {
+                work.AgreementNumber = cellValue;
+            }
+        }
 
-                    if (work != null && areСonditionsMet)
-                    {
-                        _db.Add(work);
-
-                        // Condition 2
-                        _db.Works.OrderBy(x => x.SenderWorkCode);
-
-                        await _db.SaveChangesAsync();
-                        dataInserted++;
-                    }
-                }
+        public async Task<bool> AreСonditionsMet(Work work)
+        {
+            // Condition 3a and 3c
+            if (!IsTitleAndISWCNeeded(work))
+            {
+                work.Title = null;
+                work.ISWC = null;
             }
 
-            return dataInserted;
+            // Condition 3b
+            if (IsShareholderEqualP(work))
+            {
+                work.Language = "PL";
+            }
+
+            //Condition 4
+            if (IsRecordCodeEqualD(work))
+            {
+                work.Title = "AKA TITLE";
+            }
+
+            //Condition 5
+
+            Work foundWork = await IsRecordCodeEqualUAndIpiSame(work);
+
+            if (foundWork != null)
+            {
+                await CompareWorksWithRecordCodeEqualUAndIpiSame(work, foundWork);
+            }
+
+            //Condition 6
+            if (work.RecordCode == 'U' && !await RecordCodeEqualU(work))
+            {
+                return false;
+            }
+
+            // Check whether there are duplicates in the database, Condition 2.1
+            if (IsDuplicate(work))
+            {
+                _errorsList.Add($"WORK already in database, it can`t be duplicated. Sender Work Code = {work.SenderWorkCode}");
+                return false;
+            }
+            // Condition 2.2
+            else if (IsDuplicatedISWC(work))
+            {
+                _errorsList.Add($"WORK already in database, omitted. ISWC = {work.ISWC}. Sender Work Code = {work.SenderWorkCode}");
+                return false;
+            }
+
+            return true;
+        }
+
+        //Condition 4
+        public bool IsRecordCodeEqualD(Work work)
+        {
+            if (work.RecordCode == 'D')
+                return true;
+            else
+                return false;
+        }
+
+        // Condition 3b
+        public bool IsShareholderEqualP(Work work)
+        {
+            if (work.ShareHolder == "P")
+                return true;
+            else
+                return false;
+        }
+
+        // Condition 3 and 3c
+        public bool IsTitleAndISWCNeeded(Work work)
+        {
+            if (work.RecordCode == 'T')
+                return true;
+            else
+                return false;
+        }
+
+        // Condition 2.2
+        public bool IsDuplicatedISWC(Work work)
+        {
+            if (work.ISWC == null)
+            {
+                return false;
+            }
+
+            return _db.Works.Any(x => x.ISWC == work.ISWC);
+        }
+
+        // Condition 2.1
+        public bool IsDuplicate(Work work)
+        {
+            return _db.Works.Any(x => x.SenderWorkCode == work.SenderWorkCode && x.RecordCode == work.RecordCode
+                && x.Title == work.Title && x.Role == work.Role && x.ShareHolder == work.ShareHolder && x.IPI == work.IPI
+                && x.InWorkPR == work.InWorkPR && x.InWorkMR == work.InWorkMR && x.Controlled == work.Controlled
+                && x.ISWC == work.ISWC && x.AgreementNumber == work.AgreementNumber);
         }
 
         //Condition 5
@@ -211,11 +374,14 @@ namespace Services
         //Condition 6
         public async Task<bool> RecordCodeEqualU(Work work)
         {
-            // Condition 6.a
+            // Condition 6
             Work? foundWork = await _db.Works.Where(x => x.IPI == work.IPI && x.Rightsholder != null).FirstOrDefaultAsync();
 
             if (foundWork != null)
+            {
+                _errorsList.Add($"The same IPI is already in the database and it has data for Rightsholder. Sender Work Code = {work.SenderWorkCode}");
                 return false;
+            }
 
             work.Rightsholder = $"{work.ShareHolder} {work.IPI}";
 
@@ -223,7 +389,7 @@ namespace Services
 
             //Condition 6.a.ii.
 
-            if (_db.Works.Where(x=>x.Controlled == 'Y').Count() == 0)
+            if (work.Controlled != 'Y')
             {
                 _errorsList.Add($"No SWR in transaction. Sender Work Code = {work.SenderWorkCode}");
                 return false;
@@ -240,106 +406,6 @@ namespace Services
             }
 
             return true;
-        }
-
-        public async Task<bool> AreСonditionsMet(Work work)
-        {
-            // Condition 3a and 3c
-            if (!IsTitleAndISWCNeeded(work)) 
-            {
-                work.Title = null;
-                work.ISWC = null;
-            }
-
-            // Condition 3b
-            if (IsShareholderEqualP(work))
-            {
-                work.Language = "PL";
-            }
-
-            //Condition 4
-            if (IsRecordCodeEqualD(work))
-            {
-                work.Title = "AKA TITLE";
-            }
-
-            //Condition 5
-
-            Work foundWork = await IsRecordCodeEqualUAndIpiSame(work);
-
-            if (foundWork != null)
-            {
-                await CompareWorksWithRecordCodeEqualUAndIpiSame(work, foundWork);
-            }
-
-            //Condition 6
-            if (work.RecordCode == 'U' && !await RecordCodeEqualU(work))
-            {
-                return false;
-            }
-
-            // Check whether there are duplicates in the database, Condition 2.1
-            if (IsDuplicate(work))
-            {
-                _errorsList.Add($"WORK already in database, it can`t be duplicated. Sender Work Code = {work.SenderWorkCode}");
-                return false;
-            }
-            // Condition 2.2
-            else if (IsDuplicatedISWC(work))
-            {
-                _errorsList.Add($"WORK already in database, omitted. ISWC = {work.ISWC}. Sender Work Code = {work.SenderWorkCode}");
-                return false;
-            }
-
-            return true;
-        }
-
-        //Condition 4
-        public bool IsRecordCodeEqualD(Work work) 
-        {
-            if (work.RecordCode == 'D')
-                return true;
-            else
-                return false;
-        }
-
-        // Condition 3b
-        public bool IsShareholderEqualP(Work work) 
-        {
-            if (work.ShareHolder == "P")
-                return true;
-            else
-                return false;
-        }
-
-        // Condition 3 and 3c
-        public bool IsTitleAndISWCNeeded(Work work) 
-        {
-            if (work.RecordCode == 'T')
-                return true;
-            else
-                return false;
-        }
-
-
-        // Condition 2.2
-        public bool IsDuplicatedISWC(Work work)
-        {
-            if (work.ISWC == null) 
-            {
-                return false;
-            }
-
-            return _db.Works.Where(x => x.ISWC == work.ISWC).Count() > 0;
-        }
-
-        // Condition 2.1
-        public bool IsDuplicate(Work work)
-        {
-            return _db.Works.Where(x => x.SenderWorkCode == work.SenderWorkCode && x.RecordCode == work.RecordCode
-            && x.Title == work.Title && x.Role == work.Role && x.ShareHolder == work.ShareHolder && x.IPI == work.IPI
-            && x.InWorkPR == work.InWorkPR && x.InWorkMR == work.InWorkMR && x.Controlled == work.Controlled
-            && x.ISWC == work.ISWC && x.AgreementNumber == work.AgreementNumber).Count() > 0;
         }
     }
 }

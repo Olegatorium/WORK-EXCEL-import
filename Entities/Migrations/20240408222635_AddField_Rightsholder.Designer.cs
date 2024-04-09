@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(WorksDbContext))]
-    partial class WorksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240408222635_AddField_Rightsholder")]
+    partial class AddField_Rightsholder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +59,7 @@ namespace Entities.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("RecordCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
                     b.Property<string>("Rightsholder")
@@ -67,7 +71,6 @@ namespace Entities.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("SenderWorkCode")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

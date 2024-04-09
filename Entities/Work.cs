@@ -11,9 +11,9 @@ namespace Entities
         public int ID { get; set; }
 
         [MaxLength(100)]
-        public string? SenderWorkCode { get; set; }
+        public string SenderWorkCode { get; set; }
 
-        public char RecordCode { get; set; }
+        public char? RecordCode { get; set; }
 
         [MaxLength(100)]
         public string? Title { get; set; }
