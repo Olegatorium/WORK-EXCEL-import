@@ -1,0 +1,15 @@
+﻿@model List<string>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="form-field flex">
+        <div class="flex-1">
+            <h1>List of Errors:</h1>
+            <ul>
+                @foreach (var error in Model)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    </div>
+}

@@ -1,7 +1,8 @@
-﻿@model List<string>﻿
+﻿@model IEnumerable<WorkResponse>
 @{
     ViewBag.Title = "Upload Works from Excel";
 }
+
 
 <h2>Upload Works from Excel</h2>
 <div class="w-50">
@@ -25,23 +26,65 @@
                 <button type="submit" class="button button-green-back">Upload</button>
             </div>
         </div>
+    </form> 
 
-@if (Model != null && Model.Count > 0)
-{
-    <div class="form-field flex">
-        <div class="flex-1">
-            <h1>List of Errors:</h1>
-
-            <ul>
-                @foreach (var error in Model)
-                {
-                    <li>@error</li>
-                }
-            </ul>
+     @* Errors *@
+    @if (ViewBag.Errors != null && ViewBag.Errors.Count > 0)
+    {
+        <div class="form-field flex">
+            <div class="flex-1">
+                <form id="errorReportForm" action="GetErrorReport" method="post">
+                    @foreach (var item in ViewBag.Errors)
+                    {
+                        <input type="hidden" name="errors" value="@item" />
+                    }
+                    <button type="submit" class="button button-blue-back">ERROR REPORT</button>
+                </form>
+            </div>
         </div>
-    </div>
-}
-  
-    </form>
-
+    }
 </div>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table w-100 mt">
+        <thead>
+            <tr>
+                <th>Sender Work Code</th>
+                <th>Record Code</th>
+                <th>Title</th>
+                <th>Role</th>
+                <th>ShareHolder</th>
+                <th>IPI</th>
+                <th>In Work PR</th>
+                <th>In Work MR</th>
+                <th>Controlled</th>
+                <th>ISWC</th>
+                <th>Agreement Number</th>
+                <th>Language</th>
+                <th>Rightsholder</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (WorkResponse work in Model)
+            {
+                <tr>
+                    <td>@work.SenderWorkCode</td>
+                    <td>@work.RecordCode</td>
+                    <td>@work.Title</td>
+                    <td>@work.Role</td>
+                    <td>@work.ShareHolder</td>
+                    <td>@work.IPI</td>
+                    <td>@work.InWorkPR</td>
+                    <td>@work.InWorkMR</td>
+                    <td>@work.Controlled</td>
+                    <td>@work.ISWC</td>
+                    <td>@work.AgreementNumber</td>
+                    <td>@work.Language</td>
+                    <td>@work.Rightsholder</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

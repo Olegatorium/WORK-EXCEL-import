@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using ServiceContracts.DTO;
 
 namespace ServiceContracts
 {
@@ -7,5 +8,7 @@ namespace ServiceContracts
         Task<int> UploadWorkDataFromExcelFile(IFormFile formFile);
 
         List<string> GetErrors();
+
+        Task<List<WorkResponse>> GetAllWorks();
     }
 }

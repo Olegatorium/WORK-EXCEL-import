@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.FileProviders;
 using OfficeOpenXml;
 using ServiceContracts;
+using ServiceContracts.DTO;
 using System.Diagnostics.Metrics;
 
 namespace Services
@@ -26,6 +27,11 @@ namespace Services
         public List<string> GetErrors()
         {
             return _errorsList;
+        }
+
+        public async Task<List<WorkResponse>> GetAllWorks()
+        {
+            return await _db.Works.Select(x => x.ToWorkResponse()).ToListAsync();
         }
 
         public async Task<int> UploadWorkDataFromExcelFile(IFormFile formFile)

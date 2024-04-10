@@ -10,3 +10,6 @@ C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\ServiceContracts\obj\Debug\ne
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\ServiceContracts\obj\Debug\net8.0\refint\ServiceContracts.dll
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\ServiceContracts\obj\Debug\net8.0\ServiceContracts.pdb
 C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\ServiceContracts\obj\Debug\net8.0\ref\ServiceContracts.dll
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\ServiceContracts\bin\Debug\net8.0\Entities.dll
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\ServiceContracts\bin\Debug\net8.0\Entities.pdb
+C:\Users\Olega\Desktop\Job-Music Ready Tasks\Task1\ServiceContracts\obj\Debug\net8.0\ServiceC.04662A29.Up2Date
