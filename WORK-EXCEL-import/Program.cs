@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 
 // add services into IoC container
 builder.Services.AddScoped<IWorkService, WorkService>();
+builder.Services.AddScoped<IReceiveErrorsService, ReceiveErrorsService>();
 
 builder.Services.AddDbContext<WorksDbContext>(options =>
 {

@@ -1,8 +1,18 @@
 ﻿@model List<string>
+
 @if (Model != null && Model.Count > 0)
 {
     <div class="form-field flex">
         <div class="flex-1">
+
+            <form id="errorReportExcelForm" action="ErrorsExcel" method="post">
+                @foreach (var item in Model)
+                {
+                    <input type="hidden" name="errors" value="@item" />
+                }
+                <button type="submit" class="button button-blue-back">Download as Excel</button>
+            </form>
+
             <h1>List of Errors:</h1>
             <ul>
                 @foreach (var error in Model)

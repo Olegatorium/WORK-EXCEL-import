@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{3F86A0C3-9AB3-43B1-8D81-E9B5FA071BE1}|WORK-EXCEL-import.csproj|c:\\users\\olega\\desktop\\job-music ready tasks\\task1\\work-excel-import\\controllers\\workscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F86A0C3-9AB3-43B1-8D81-E9B5FA071BE1}|WORK-EXCEL-import.csproj|solutionrelative:controllers\\workscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,21 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "WorksController.cs",
-              "DocumentMoniker": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Controllers\\WorksController.cs",
-              "RelativeDocumentMoniker": "Controllers\\WorksController.cs",
-              "ToolTip": "C:\\Users\\Olega\\Desktop\\Job-Music Ready Tasks\\Task1\\WORK-EXCEL-import\\Controllers\\WorksController.cs",
-              "RelativeToolTip": "Controllers\\WorksController.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAowCgAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-09T22:39:47.802Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
