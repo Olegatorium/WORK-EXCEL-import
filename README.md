@@ -1,3 +1,5 @@
+My Task:
+
 1. **Import multilines**: This means that the entire WORK is described in multiple lines – all lines share the same Sender Work Code in column A.
 2. **Group all lines** that have the same Sender Work Code in column A.
    2.1. Check if there is a WORK in our database with the following record: Type - S, Name - ZAIKS, ID - 97, and the given Sender Work Code. 
